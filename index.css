@@ -1,0 +1,17 @@
+.slot {
+  position: absolute;
+  left:50%;
+  top:50%;
+  border: 1px black solid;
+  width: 200px;
+  height: 3rem;
+  overflow: hidden;
+}
+
+.slot > .wrapper > div {
+  font-size: 3rem;
+  text-align: center;
+  line-height: 3rem;
+  height: 4rem;
+}
+
