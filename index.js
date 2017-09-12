@@ -1,0 +1,2 @@
+
+createSlot(document.querySelector('.slot'));
