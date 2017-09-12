@@ -15,3 +15,7 @@
   height: 4rem;
 }
 
+.slot.up {
+  left:20%;
+  top:50%;
+}

@@ -11,6 +11,7 @@ const createSlot = (dom, config = {}) => {
   const speedBound = 5;
   const beginDecreaseBound = 50;
 
+  let direction = config.direction || 'down' ;
   let currentIndex = 0;
   let speed = 0.5;
   let blur = 12;
@@ -29,7 +30,16 @@ const createSlot = (dom, config = {}) => {
     }
 
     wrapper.style.textShadow = `0 0 ${blur}px rgba(0,0,0,1)`;
-    wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${currentIndex * borderHeight})`;
+    switch ( direction ){
+      case 'up':
+        wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${currentIndex * borderHeight})`;
+        break;
+      case 'down':
+        wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${(itemLength - currentIndex) * borderHeight})`;
+        break;
+      default:
+        wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${(itemLength - currentIndex) * borderHeight})`;
+    }
 
     if ( timer <= TIME || (timer > TIME && !Number.isInteger(currentIndex)) ) {
       requestAnimationFrame(animate);
