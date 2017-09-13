@@ -8,6 +8,9 @@
   overflow: hidden;
 }
 
+.slot > .wrapper {
+}
+
 .slot > .wrapper > div {
   font-size: 3rem;
   text-align: center;
@@ -18,4 +21,14 @@
 .slot.up {
   left:20%;
   top:50%;
+}
+
+.slot.left {
+  left:20%;
+  top:20%;
+}
+
+.slot.right {
+  left:50%;
+  top:20%;
 }

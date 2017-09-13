@@ -5,7 +5,8 @@ const createSlot = (dom, config = {}) => {
 
   const items = wrapper.querySelectorAll('div');
   const itemLength = items.length - 1;
-  const borderHeight = items[0].clientHeight ;
+  const borderHeight = items[0].clientHeight;
+  const borderWidth = items[0].clientWidth;
   const TIME = 300;
   const decelerate = 0.025; 
   const speedBound = 5;
@@ -16,6 +17,19 @@ const createSlot = (dom, config = {}) => {
   let speed = 0.5;
   let blur = 12;
   let timer = 0;
+
+  let wrapperWidth = dom.clientWidth;
+  if ( direction === 'left' || direction === 'right' ){
+    items.forEach((item) => {
+      item.style.display = 'inline-block';
+      item.style.width = dom.clientWidth;
+    })
+    wrapperWidth = dom.clientWidth * ( items.length + 1);
+  } else {
+    wrapper.style.marginLeft = `-${(wrapperWidth - dom.clientWidth)/2}px` ; 
+  }
+  wrapper.style.width = `${wrapperWidth}px`;
+  
 
   const animate = () => {
     if ( timer >= beginDecreaseBound && timer % speedBound === 0 ){
@@ -37,10 +51,16 @@ const createSlot = (dom, config = {}) => {
       case 'down':
         wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${(itemLength - currentIndex) * borderHeight})`;
         break;
+      case 'left':
+        wrapper.style.transform = `matrix(1, 0, 0, 1, -${currentIndex * borderWidth}, 0)`;
+        break;
+      case 'right':
+        wrapper.style.transform = `matrix(1, 0, 0, 1, -${currentIndex * borderWidth}, 0)`;
+        break;
       default:
         wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${(itemLength - currentIndex) * borderHeight})`;
     }
-
+    console.log(currentIndex);
     if ( timer <= TIME || (timer > TIME && !Number.isInteger(currentIndex)) ) {
       requestAnimationFrame(animate);
     } 
