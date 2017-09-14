@@ -13,10 +13,12 @@ const createSlot = (dom, config = {}) => {
   const beginDecreaseBound = 50;
 
   let direction = config.direction || 'down' ;
-  let currentIndex = 0;
+  let currentIndex = 3;
   let speed = 500;
   let blur = 12;
   let timer = 0;
+  let offsetX = 0;
+  let offsetY = 0;
 
   let wrapperWidth = dom.clientWidth;
   if ( direction === 'left' || direction === 'right' ){
@@ -43,23 +45,24 @@ const createSlot = (dom, config = {}) => {
       currentIndex = 0;
     }
 
-    wrapper.style.textShadow = `0 0 ${blur}px rgba(0,0,0,1)`;
     switch ( direction ){
       case 'up':
-        wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${currentIndex * borderHeight})`;
+        offsetY = -currentIndex * borderHeight;
         break;
       case 'down':
-        wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${(itemLength - currentIndex) * borderHeight})`;
+        offsetY = -(itemLength - currentIndex) * borderHeight;
         break;
       case 'left':
-        wrapper.style.transform = `matrix(1, 0, 0, 1, -${currentIndex * borderWidth}, 0)`;
+        offsetX = -currentIndex * borderWidth
         break;
       case 'right':
-        wrapper.style.transform = `matrix(1, 0, 0, 1, -${currentIndex * borderWidth}, 0)`;
+        offsetX = -currentIndex * borderWidth
         break;
-      default:
-        wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${(itemLength - currentIndex) * borderHeight})`;
     }
+    
+    wrapper.style.textShadow = `0 0 ${blur}px rgba(0,0,0,1)`;
+    wrapper.style.transform = `matrix(1, 0, 0, 1, ${offsetX}, ${offsetY})`;
+    
     if ( timer <= TIME || (timer > TIME && !Number.isInteger(currentIndex)) ) {
       requestAnimationFrame(animate);
     } 
