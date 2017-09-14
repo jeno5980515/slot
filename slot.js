@@ -8,13 +8,13 @@ const createSlot = (dom, config = {}) => {
   const borderHeight = items[0].clientHeight;
   const borderWidth = items[0].clientWidth;
   const TIME = 300;
-  const decelerate = 0.025; 
+  const decelerate = 25; 
   const speedBound = 5;
   const beginDecreaseBound = 50;
 
   let direction = config.direction || 'down' ;
   let currentIndex = 0;
-  let speed = 0.5;
+  let speed = 500;
   let blur = 12;
   let timer = 0;
 
@@ -37,7 +37,7 @@ const createSlot = (dom, config = {}) => {
       speed = speed > decelerate ? speed - decelerate : decelerate
     }
   
-    currentIndex += speed ;
+    currentIndex = (parseInt(currentIndex * 1000) + speed) / 1000 ;
     timer ++;
     if ( currentIndex >= itemLength ){
       currentIndex = 0;
@@ -60,7 +60,6 @@ const createSlot = (dom, config = {}) => {
       default:
         wrapper.style.transform = `matrix(1, 0, 0, 1, 0, -${(itemLength - currentIndex) * borderHeight})`;
     }
-    console.log(currentIndex);
     if ( timer <= TIME || (timer > TIME && !Number.isInteger(currentIndex)) ) {
       requestAnimationFrame(animate);
     } 
