@@ -2,16 +2,17 @@ const createSlot = (dom, config = {}) => {
   
   const wrapper = dom.querySelector('.wrapper');
   wrapper.style.color = 'transparent';
+  wrapper.style.fontSize = 0;
 
   const items = wrapper.querySelectorAll('div');
   const itemLength = items.length - 1;
   const borderHeight = items[0].clientHeight;
   const borderWidth = items[0].clientWidth;
-  const TIME = 300;
+  const TIME = 500;
   const decelerate = 25; 
   const speedBound = 5;
   const beginDecreaseBound = 50;
-
+  
   let direction = config.direction || 'down' ;
   let currentIndex = 3;
   let speed = 500;
@@ -41,10 +42,10 @@ const createSlot = (dom, config = {}) => {
   
     currentIndex = (parseInt(currentIndex * 1000) + speed) / 1000 ;
     timer ++;
+
     if ( currentIndex >= itemLength ){
       currentIndex = 0;
     }
-
     switch ( direction ){
       case 'up':
         offsetY = -currentIndex * borderHeight;
@@ -59,7 +60,6 @@ const createSlot = (dom, config = {}) => {
         offsetX = -currentIndex * borderWidth
         break;
     }
-    
     wrapper.style.textShadow = `0 0 ${blur}px rgba(0,0,0,1)`;
     wrapper.style.transform = `matrix(1, 0, 0, 1, ${offsetX}, ${offsetY})`;
     
