@@ -57,7 +57,7 @@ const createSlot = (dom, config = {}) => {
         offsetX = -currentIndex * borderWidth
         break;
       case 'right':
-        offsetX = -currentIndex * borderWidth
+        offsetX = -(itemLength - currentIndex) * borderWidth
         break;
     }
     wrapper.style.textShadow = `0 0 ${blur}px rgba(0,0,0,1)`;
