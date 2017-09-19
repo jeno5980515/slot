@@ -14,6 +14,12 @@
   top: 50%;
 }
 
+#stopButton{
+  position: absolute;
+  left: 65%;
+  top: 60%;
+}
+
 .slot > .wrapper > div {
   font-size: 3rem;
   text-align: center;

@@ -16,3 +16,10 @@ document.getElementById('startButton').addEventListener('click', () => {
 	slot3.spin();
 	slot4.spin();
 })
+
+document.getElementById('stopButton').addEventListener('click', () => {
+	slot1.stop();
+	slot2.stop();
+	slot3.stop();
+	slot4.stop();
+})

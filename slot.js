@@ -14,11 +14,12 @@ const createSlot = (dom, config = {}) => {
   
   let direction = config.direction || 'down' ;
   let currentIndex = 3;
-  let speed = 500;
-  let blur = 12;
-  let timer = 0;
+  let speed;
+  let blur;
+  let timer;
   let offsetX = 0;
   let offsetY = 0;
+  let state = 'stop';
 
   let wrapperWidth = dom.clientWidth;
   if ( direction === 'left' || direction === 'right' ){
@@ -34,17 +35,21 @@ const createSlot = (dom, config = {}) => {
   
 
   const animate = () => {
-    if ( timer >= beginDecreaseBound && timer % speedBound === 0 ){
-      blur --;
-      speed = speed > decelerate ? speed - decelerate : decelerate
+
+    if ( state === 'stop' ){
+      if ( timer >= beginDecreaseBound && timer % speedBound === 0 ){
+        blur --;
+        speed = speed > decelerate ? speed - decelerate : decelerate
+      }
+      timer ++;
     }
   
     currentIndex = (parseInt(currentIndex * 1000) + speed) / 1000 ;
-    timer ++;
 
     if ( currentIndex >= itemLength ){
       currentIndex = 0;
     }
+    
     switch ( direction ){
       case 'up':
         offsetY = -currentIndex * borderHeight;
@@ -75,11 +80,17 @@ const createSlot = (dom, config = {}) => {
   }
 
   const spin = () => {
+    state = 'spin';
     init();
     requestAnimationFrame(animate);
   }
 
+  const stop = () => {
+    state = 'stop';
+  }
+
   return {
-    spin
+    spin,
+    stop
   }
 }
