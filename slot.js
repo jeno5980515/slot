@@ -2,14 +2,15 @@ const createSlot = (dom, config = {}) => {
   
   dom.style.overflow = 'hidden';
   const wrapper = dom.querySelector('.wrapper');
+  wrapper.style.display = 'flex';
   wrapper.style.fontSize = 0;
   wrapper.appendChild(wrapper.querySelector('div').cloneNode(true));
 
   const items = wrapper.querySelectorAll('div');
   const itemLength = items.length - 1;
   
-  const borderHeight = items[0].clientHeight;
-  const borderWidth = items[0].clientWidth;
+  let borderHeight = dom.clientHeight;
+  let borderWidth = dom.clientWidth;
   const TIME = 500;
   const decelerate = 25; 
   const speedBound = 5;
@@ -27,12 +28,23 @@ const createSlot = (dom, config = {}) => {
   let wrapperWidth = dom.clientWidth;
   if ( direction === 'left' || direction === 'right' ){
     items.forEach((item) => {
-      item.style.display = 'inline-block';
-      item.style.width = dom.clientWidth;
+      item.style.flex = '1';
+      item.style.justifyContent = 'center';
+      item.style.alignItems = 'center';
+      item.style.display = 'flex';
     })
-    wrapperWidth = dom.clientWidth * ( items.length + 1);
+    wrapperWidth = dom.clientWidth * ( items.length );
+    wrapper.style.height = dom.clientHeight;
   } else {
-    wrapper.style.marginLeft = `-${(wrapperWidth - dom.clientWidth)/2}px` ; 
+    wrapper.style.flexWrap = 'nowrap';
+    wrapper.style.flexDirection = 'column';
+    items.forEach((item) => {
+      item.style.flex = '1';
+      item.style.justifyContent = 'center';
+      item.style.alignItems = 'center';
+      item.style.display = 'flex';
+    })
+    wrapper.style.height = dom.clientHeight * ( items.length );
   }
   wrapper.style.width = `${wrapperWidth}px`;
   
@@ -77,7 +89,7 @@ const createSlot = (dom, config = {}) => {
 
   const init = () => {
     wrapper.style.color = 'transparent';
-    speed = 500;
+    speed = Math.max(borderWidth, borderHeight);
     blur = 12;
     timer = 0;
   }

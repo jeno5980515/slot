@@ -1,7 +1,4 @@
 .slot {
-  position: absolute;
-  left:50%;
-  top:50%;
   border: 1px black solid;
   width: 200px;
   height: 3rem;
@@ -21,22 +18,23 @@
 
 .slot > .wrapper > div {
   font-size: 3rem;
-  text-align: center;
-  line-height: 3rem;
-  height: 4rem;
 }
 
 .slot.up {
+  position: absolute;
+  height: 300px;
   left:20%;
   top:50%;
 }
 
 .slot.left {
+  position: relative;
   left:20%;
   top:20%;
 }
 
 .slot.right {
+  position: fixed;
   left:50%;
   top:20%;
 }
