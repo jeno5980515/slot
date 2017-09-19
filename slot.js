@@ -1,5 +1,6 @@
 const createSlot = (dom, config = {}) => {
   
+  dom.style.overflow = 'hidden';
   const wrapper = dom.querySelector('.wrapper');
   wrapper.style.fontSize = 0;
   wrapper.appendChild(wrapper.querySelector('div').cloneNode(true));
