@@ -1,7 +1,6 @@
 const createSlot = (dom, config = {}) => {
   
   const wrapper = dom.querySelector('.wrapper');
-  wrapper.style.color = 'transparent';
   wrapper.style.fontSize = 0;
 
   const items = wrapper.querySelectorAll('div');
@@ -68,5 +67,19 @@ const createSlot = (dom, config = {}) => {
     } 
   }
 
-  requestAnimationFrame(animate);
+  const init = () => {
+    wrapper.style.color = 'transparent';
+    speed = 500;
+    blur = 12;
+    timer = 0;
+  }
+
+  const spin = () => {
+    init();
+    requestAnimationFrame(animate);
+  }
+
+  return {
+    spin
+  }
 }
