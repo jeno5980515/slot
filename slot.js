@@ -2,9 +2,11 @@ const createSlot = (dom, config = {}) => {
   
   const wrapper = dom.querySelector('.wrapper');
   wrapper.style.fontSize = 0;
+  wrapper.appendChild(wrapper.querySelector('div').cloneNode(true));
 
   const items = wrapper.querySelectorAll('div');
   const itemLength = items.length - 1;
+  
   const borderHeight = items[0].clientHeight;
   const borderWidth = items[0].clientWidth;
   const TIME = 500;
