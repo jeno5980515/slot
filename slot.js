@@ -44,6 +44,8 @@ const createSlot = (dom, config = {}) => {
 
   function setItemsProperty(){
     items.forEach((item) => {
+      const fontSize = parseInt(window.getComputedStyle(item, null).fontSize, 10);
+      item.style.fontSize = fontSize <= 0 ? '1rem' : `${fontSize}px`;
       item.style.flex = '1';
       item.style.justifyContent = 'center';
       item.style.alignItems = 'center';
