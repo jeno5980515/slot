@@ -9,13 +9,15 @@ const createSlot = (dom, config = {}) => {
   const items = wrapper.querySelectorAll('div');
   const itemLength = items.length - 1;
   
-  let borderHeight = dom.clientHeight;
-  let borderWidth = dom.clientWidth;
+  let itemHeight = dom.clientHeight;
+  let itemWidth = dom.clientWidth;
   const TIME = 500;
   const decelerate = 25; 
   const speedBound = 5;
   const beginDecreaseBound = 50;
   
+  // let space = config.space || 0;
+  let space = 50;
   let direction = config.direction || 'down' ;
   let currentIndex = 3;
   let speed;
@@ -33,24 +35,33 @@ const createSlot = (dom, config = {}) => {
       item.style.alignItems = 'center';
       item.style.display = 'flex';
     })
-    wrapperWidth = dom.clientWidth * ( items.length );
+    wrapperWidth = (space + dom.clientWidth ) * ( items.length ) ;
     wrapper.style.height = dom.clientHeight;
+    wrapper.style.marginLeft = `-${space/2}px`;
+    setItemRectProperty(items[0]);
   } else {
     wrapper.style.flexWrap = 'nowrap';
     wrapper.style.flexDirection = 'column';
     items.forEach((item) => {
-      item.style.flex = '1';
+      item.style.flex = '100px';
       item.style.justifyContent = 'center';
       item.style.alignItems = 'center';
       item.style.display = 'flex';
     })
-    wrapper.style.height = dom.clientHeight * ( items.length );
+    wrapper.style.width = dom.clientWidth;
+    wrapper.style.height = (space + dom.clientHeight) * ( items.length );
+    wrapper.style.marginTop = `-${space/2}px`;
+    setItemRectProperty(items[0]);
   }
   wrapper.style.width = `${wrapperWidth}px`;
   
+  function setItemRectProperty(item) {
+    const itemRect = item.getBoundingClientRect();
+    itemWidth = wrapper.clientWidth + space/2;
+    itemHeight = itemRect.height;
+  }
 
-  const animate = () => {
-
+  function animate() {
     if ( state === 'stop' ){
       if ( timer >= beginDecreaseBound && timer % speedBound === 0 ){
         blur --;
@@ -60,23 +71,22 @@ const createSlot = (dom, config = {}) => {
     }
   
     currentIndex = (parseInt(currentIndex * 1000) + speed) / 1000 ;
-
     if ( currentIndex >= itemLength ){
       currentIndex = 0;
     }
     
     switch ( direction ){
       case 'up':
-        offsetY = -currentIndex * borderHeight;
+        offsetY = -currentIndex * itemHeight;
         break;
       case 'down':
-        offsetY = -(itemLength - currentIndex) * borderHeight;
+        offsetY = -(itemLength - currentIndex) * itemHeight;
         break;
       case 'left':
-        offsetX = -currentIndex * borderWidth
+        offsetX = -currentIndex * itemWidth;
         break;
       case 'right':
-        offsetX = -(itemLength - currentIndex) * borderWidth
+        offsetX = -(itemLength - currentIndex) * itemWidth;
         break;
     }
     wrapper.style.textShadow = `0 0 ${blur}px rgba(0,0,0,1)`;
@@ -87,20 +97,20 @@ const createSlot = (dom, config = {}) => {
     } 
   }
 
-  const init = () => {
+  function init() {
     wrapper.style.color = 'transparent';
-    speed = Math.max(borderWidth, borderHeight);
+    speed = Math.max(itemWidth, itemHeight);
     blur = 12;
     timer = 0;
   }
 
-  const spin = () => {
+  function spin() {
     state = 'spin';
     init();
     requestAnimationFrame(animate);
   }
 
-  const stop = () => {
+  function stop() {
     state = 'stop';
   }
 
