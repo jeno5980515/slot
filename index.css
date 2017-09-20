@@ -29,6 +29,7 @@
 
 .slot.left {
   position: relative;
+  width: 500px;
   left:20%;
   top:20%;
 }
