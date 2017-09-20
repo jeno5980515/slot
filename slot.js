@@ -11,7 +11,7 @@ const createSlot = (dom, config = {}) => {
   
   let itemHeight = dom.clientHeight;
   let itemWidth = dom.clientWidth;
-  const BLUR = 12;
+  const BLUR = 4;
   const TIME = 500;
   const decelerate = 25; 
   const speedBound = 5;
@@ -98,7 +98,7 @@ const createSlot = (dom, config = {}) => {
         offsetX = -(itemLength - currentIndex) * itemWidth;
         break;
     }
-    wrapper.style.textShadow = `0 0 ${blur}px rgba(0,0,0,1)`;
+    wrapper.style.filter = `blur(${blur}px)`;
     wrapper.style.transform = `matrix(1, 0, 0, 1, ${offsetX}, ${offsetY})`;
     
     if ( timer <= TIME || (timer > TIME && !Number.isInteger(currentIndex)) ) {
@@ -107,7 +107,6 @@ const createSlot = (dom, config = {}) => {
   }
 
   function reset() {
-    wrapper.style.color = 'transparent';
     speed = Math.max(itemWidth, itemHeight);
     blur = BLUR;
     timer = 0;
