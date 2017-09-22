@@ -50,6 +50,12 @@ const createSlot = (dom, config = {}) => {
       item.style.justifyContent = 'center';
       item.style.alignItems = 'center';
       item.style.display = 'flex';
+      item.querySelectorAll('img').forEach(img => {
+        if ( direction === 'left' || direction === 'right')
+          img.style.height = '100%';
+        else 
+          img.style.width = '100%';
+      })
     })
   }
 
