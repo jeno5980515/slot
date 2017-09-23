@@ -1,24 +1,23 @@
 const createSlot = (dom, config = {}) => {
   
   dom.style.overflow = 'hidden';
-  const wrapper = dom.querySelector('.wrapper');
+  let wrapper = dom.querySelector('.wrapper');
   wrapper.style.display = 'flex';
   wrapper.style.fontSize = 0;
   wrapper.appendChild(wrapper.querySelector('div').cloneNode(true));
 
-  const items = wrapper.querySelectorAll('div');
-  const itemLength = items.length - 1;
+  let items = wrapper.querySelectorAll('div');
+  let itemLength = items.length - 1;
   
   let itemHeight = dom.clientHeight;
   let itemWidth = dom.clientWidth;
-  const BLUR = 4;
-  const TIME = 500;
-  const decelerate = 25; 
-  const speedBound = 5;
-  const beginDecreaseBound = 50;
-  
-  // let space = config.space || 0;
-  let space = 50;
+
+  let BLUR = config.blur || 4;
+  let TIME = config.time || 500;
+  let decelerate = config.decelerate || 25; 
+  let speedBound = config.speedBound || 5;
+  let beginDecreaseBound = config.beginDecreaseBound || 50;
+  let space = config.space || 0;
   let direction = config.direction || 'down' ;
   let currentIndex = 3;
   let speed;
