@@ -1,0 +1,22 @@
+{
+  "name": "slotify",
+  "version": "0.0.1",
+  "description": "Make you DOM elemnts become slot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeno5980515/slot.git"
+  },
+  "keywords": [
+    "slot"
+  ],
+  "author": "jeno5980515",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeno5980515/slot/issues"
+  },
+  "homepage": "https://github.com/jeno5980515/slot#readme"
+}
