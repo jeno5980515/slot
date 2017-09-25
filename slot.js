@@ -12,14 +12,22 @@ const createSlot = (dom, config = {}) => {
   let itemHeight = dom.clientHeight;
   let itemWidth = dom.clientWidth;
 
+  const BLUR_RATIO = 500;
+  const SPEED_RATIO = 10;
+
   let BLUR = config.blur || 4;
   let TIME = config.time || 500;
-  let decelerate = config.decelerate || 25; 
+  let SPEED = config.speed || 0;
+  let accelerate = config.accelerate || 10;
+  let decelerate = config.decelerate || 10; 
   let speedBound = config.speedBound || 5;
   let beginDecreaseBound = config.beginDecreaseBound || 50;
   let space = config.space || 0;
+  space = 50;
+  let speedMinBound = config.speedMinBound || 25;
   let direction = config.direction || 'down' ;
   let currentIndex = 3;
+
   let speed;
   let blur;
   let timer;
@@ -78,15 +86,24 @@ const createSlot = (dom, config = {}) => {
     itemHeight = itemRect.height;
   }
 
+  function speedUp(){
+    if ( speed >= speedBound ) return;
+
+    speed += accelerate / SPEED_RATIO;
+    if ( blur < BLUR )
+      blur += accelerate / BLUR_RATIO;
+  }
+
+  function speedDown(){
+
+    speed = speed - accelerate / SPEED_RATIO > speedMinBound ? speed - accelerate / SPEED_RATIO : speedMinBound;
+    if ( blur > 0 )
+      blur -= accelerate / BLUR_RATIO;
+  }
+
   function animate() {
-    if ( state === 'stop' ){
-      if ( timer >= beginDecreaseBound && timer % speedBound === 0 ){
-        blur --;
-        speed = speed > decelerate ? speed - decelerate : decelerate
-      }
-      timer ++;
-    }
-  
+    state === 'stop' ? speedDown() : speedUp();
+
     currentIndex = currentIndex >= itemLength ? 0 : (parseInt(currentIndex * 1000) + speed) / 1000 ;
 
     switch ( direction ){
@@ -103,17 +120,22 @@ const createSlot = (dom, config = {}) => {
         offsetX = -(itemLength - currentIndex) * itemWidth;
         break;
     }
+    console.log(blur);
     wrapper.style.filter = `blur(${blur}px)`;
     wrapper.style.transform = `matrix(1, 0, 0, 1, ${offsetX}, ${offsetY})`;
     
-    if ( timer <= TIME || (timer > TIME && !Number.isInteger(currentIndex)) ) {
+    if ( state === 'stop' ) {
+      if ( !Number.isInteger(currentIndex) || speed > speedMinBound )
+        requestAnimationFrame(animate);
+    } else if ( state === 'spin' ){
       requestAnimationFrame(animate);
-    } 
+    }
   }
 
   function reset() {
-    speed = Math.max(itemWidth, itemHeight);
-    blur = BLUR;
+    speed = SPEED;
+    speedBound = Math.max(itemWidth, itemHeight);
+    blur = 0;
     timer = 0;
   }
 
