@@ -21,5 +21,5 @@ document.getElementById('stopButton').addEventListener('click', () => {
 	slot1.stop();
 	slot2.stop();
 	slot3.stop();
-	slot4.stop();
+	slot4.stop(3);
 })

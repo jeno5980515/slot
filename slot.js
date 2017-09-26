@@ -23,10 +23,11 @@ const createSlot = (dom, config = {}) => {
   let speedBound = config.speedBound || 5;
   let beginDecreaseBound = config.beginDecreaseBound || 50;
   let space = config.space || 0;
-  space = 50;
+  // space = 50;
   let speedMinBound = config.speedMinBound || 25;
   let direction = config.direction || 'down' ;
-  let currentIndex = 3;
+  let currentIndex = 0;
+  let stopIndex = null;
 
   let speed;
   let blur;
@@ -120,13 +121,17 @@ const createSlot = (dom, config = {}) => {
         offsetX = -(itemLength - currentIndex) * itemWidth;
         break;
     }
-    console.log(blur);
     wrapper.style.filter = `blur(${blur}px)`;
     wrapper.style.transform = `matrix(1, 0, 0, 1, ${offsetX}, ${offsetY})`;
     
     if ( state === 'stop' ) {
-      if ( !Number.isInteger(currentIndex) || speed > speedMinBound )
+      if ( !Number.isInteger(currentIndex) || speed > speedMinBound ){
         requestAnimationFrame(animate);
+      } else if ( stopIndex && currentIndex !== stopIndex ){
+        requestAnimationFrame(animate);
+      } else {
+        stopIndex = null;
+      }
     } else if ( state === 'spin' ){
       requestAnimationFrame(animate);
     }
@@ -149,7 +154,8 @@ const createSlot = (dom, config = {}) => {
     requestAnimationFrame(animate);
   }
 
-  function stop() {
+  function stop(index) {
+    stopIndex = (direction === 'down' || direction === 'right') ? itemLength - index : index ;
     state = 'stop';
   }
 

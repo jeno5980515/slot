@@ -11,6 +11,7 @@ const slot = createSlot(document.querySelector('.slot'), config);
   time,
   decelerate,
   speedBound,
+  speedMinBound,
   beginDecreaseBound,
   space,
   direction
@@ -20,4 +21,5 @@ const slot = createSlot(document.querySelector('.slot'), config);
 ```javascript
 slot.spin();
 slot.stop();
+slot.stop(3);
 ```
