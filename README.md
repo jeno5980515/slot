@@ -9,6 +9,8 @@ const slot = createSlot(document.querySelector('.slot'), config);
 {
   blur,
   time,
+  speed,
+  accelerate,
   decelerate,
   speedBound,
   speedMinBound,
